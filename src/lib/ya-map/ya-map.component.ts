@@ -3,6 +3,7 @@ import { YaMapWrapper } from '../services/ya-map.wrapper';
 import { YaMap } from '../models/ya-map';
 import { Subscription } from 'rxjs';
 import { MyEvent } from '../models/my-event';
+import { YaControls } from '../core/ya-controls.enum';
 
 
 @Component({
@@ -14,6 +15,7 @@ export class YaMapComponent implements OnInit, OnDestroy {
 
   @Input() center: number[];
   @Input() zoom: number;
+  @Input() controls: YaControls[];
 
   @Output() loaded: EventEmitter<YaMap>;
   @Output() loadError: EventEmitter<any>;
@@ -43,7 +45,8 @@ export class YaMapComponent implements OnInit, OnDestroy {
     this._wrapper.createMap(mapContainer, {
       center: this.center,
       zoom: this.zoom,
-      type: 'yandex#map'
+      type: 'yandex#map',
+      controls: this.controls
     }).then(result => this.onLoaded(result))
       .catch(reason => this.loadError.emit(reason));
   }

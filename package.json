@@ -1,9 +1,14 @@
 {
   "name": "angular-lib-yandex-maps",
-  "version": "0.0.4",
+  "version": "0.0.9",
   "keywords": ["yandex", "map", "ng", "angular"],
   "author": "Phreeman",
   "license": "MIT",
+  "homepage": "https://github.com/Phreeman703/angular-lib-yandex-maps",
+  "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Phreeman703/angular-lib-yandex-maps"
+    },
   "peerDependencies": {
     "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
     "@angular/core": "^6.0.0-rc.0 || ^6.0.0"

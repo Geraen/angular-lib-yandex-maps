@@ -55,14 +55,30 @@ export class YaMapWrapper {
    * @param properties @see https://tech.yandex.ru/maps/doc/jsapi/2.1/ref/reference/Placemark-docpage/#Placemark__param-properties
    */
   public createTemplateMarker(template: string, latitude: number, longitude: number, options: any, properties: any): Promise<YaMarker> {
+    return this._map.then((map: YaMap) => this.createMarker(latitude, longitude, options, {
+      iconLayout: ymaps.templateLayoutFactory.createClass(template),
+      iconShape: properties.iconShape,
+      iconOffset: properties.iconOffset
+    }));
+  }
+  /**
+   * Создает маркер на карте
+   * @param latitude 
+   * @param longitude 
+   * @param options @see https://tech.yandex.ru/maps/doc/jsapi/2.1/ref/reference/Placemark-docpage/#Placemark__param-options
+   * @param properties @see https://tech.yandex.ru/maps/doc/jsapi/2.1/ref/reference/Placemark-docpage/#Placemark__param-properties
+   */
+  public createMarker(latitude: number, longitude: number, options: any = null, properties: any = null): Promise<YaMarker> {
     return this._map.then((map: YaMap) => {
-      let marker = new ymaps.Placemark([latitude, longitude], options, {
-        iconLayout: ymaps.templateLayoutFactory.createClass(template),
-        iconShape: properties.iconShape,
-        iconOffset: properties.iconOffset
-      });
+      let marker = new ymaps.Placemark([latitude, longitude], options, properties);
       map.geoObjects.add(marker);
       return marker as YaMarker;
+    });
+  }
+
+  public removeMarker(_marker: YaMarker): Promise<void> {
+    return this._map.then((map: YaMap) => {
+      map.geoObjects.remove(_marker);
     });
   }
 

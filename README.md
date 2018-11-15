@@ -8,7 +8,7 @@ npm i angular-lib-yandex-maps
 
 #### app.module.ts
 ```ts
-AngularLibYandexMapsModule.forRoot('Ваш ключю или null')
+AngularLibYandexMapsModule.forRoot('Ваш ключ или null')
 ```
 
 Style.css

@@ -8,14 +8,14 @@ import { YaMapComponent } from './ya-map/ya-map.component';
 import { YaMapWrapper } from './services/ya-map.wrapper';
 import { MarkerService } from './services/marker.service';
 import { CustomPlacemarkComponent } from './geoObjects/custom-placemark/custom-placemark.component';
-import { CustomPlacemarkDirective } from './geoObjects/custom-placemark.directive';
+import { PlacemarkDirective } from './geoObjects/placemark/placemark.directive';
 
 @NgModule({
   imports: [
     CommonModule
   ],
-  declarations: [YaMapComponent, CustomPlacemarkComponent, CustomPlacemarkDirective],
-  exports: [YaMapComponent, CustomPlacemarkComponent, CustomPlacemarkDirective],
+  declarations: [YaMapComponent, CustomPlacemarkComponent, PlacemarkDirective],
+  exports: [YaMapComponent, CustomPlacemarkComponent, PlacemarkDirective],
   providers: [YaMapWrapper, MarkerService]
 })
 export class AngularLibYandexMapsModule {

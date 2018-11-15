@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, AfterContentInit, OnChanges, SimpleChanges, ChangeDetectionStrategy, KeyValueDiffers, KeyValueDiffer, DoCheck, KeyValueChangeRecord } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, AfterContentInit, OnChanges, SimpleChanges, ChangeDetectionStrategy, KeyValueDiffers, KeyValueDiffer, DoCheck, KeyValueChangeRecord, OnDestroy } from '@angular/core';
 import { MarkerService } from '../../services/marker.service';
 import { isNullOrUndefined } from 'util';
 import { YaMarker } from '../../models/ya-marker';
@@ -9,7 +9,7 @@ import { YaMarker } from '../../models/ya-marker';
   styleUrls: ['./custom-placemark.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CustomPlacemarkComponent implements OnInit, OnChanges, DoCheck {
+export class CustomPlacemarkComponent implements OnInit, OnChanges, DoCheck, OnDestroy {
 
   private customerDiffer: KeyValueDiffer<string, any>;
   private _marker: YaMarker;
@@ -31,12 +31,12 @@ export class CustomPlacemarkComponent implements OnInit, OnChanges, DoCheck {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (!changes.latitude.isFirstChange() && !isNullOrUndefined(this._marker)) {
-      this._marker.geometry.setCoordinates([changes.latitude.currentValue, changes.longitude.currentValue]);
+    if (!isNullOrUndefined(changes.latitude) && !changes.latitude.isFirstChange() && !isNullOrUndefined(this._marker)) {
+      this._marker.geometry.setCoordinates([changes.latitude.currentValue, this.longitude]);
     }
 
-    if (!changes.longitude.isFirstChange() && !isNullOrUndefined(this._marker)) {
-      this._marker.geometry.setCoordinates([changes.latitude.currentValue, changes.longitude.currentValue]);
+    if (!isNullOrUndefined(changes.longitude) && !changes.longitude.isFirstChange() && !isNullOrUndefined(this._marker)) {
+      this._marker.geometry.setCoordinates([this.latitude, changes.longitude.currentValue]);
     }
   }
 
@@ -46,4 +46,7 @@ export class CustomPlacemarkComponent implements OnInit, OnChanges, DoCheck {
     changes.forEachChangedItem((record: KeyValueChangeRecord<string, any>) => this._marker.properties.set(record.key, record.currentValue));
   }
 
+  ngOnDestroy(): void {
+    this._markerService.removeMarker(this._marker);
+  }
 }
